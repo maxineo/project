@@ -1,30 +1,21 @@
-import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { memo, ReactElement } from 'react';
 
-import Books from './components/books/Books';
-import Nav from './components/navbar/Nav';
-import NewBookForm from './components/newBookForm/NewBookForm';
-import EditBookForm from './components/editBookForm/EditBookForm';
-import PageNotFound from './components/PageNotFound/PageNotFound';
+import AppRouter from './components/AppRouter/AppRouter';
+
+import Nav from './components/Nav/Nav';
 
 /**
  * The component with navigation bar and routes of the app.
+ *
  * @returns component with the entire app.
  */
-function App() {
-  useEffect(() => {});
-
+const App = (): ReactElement => {
   return (
     <div>
       <Nav />
-      <Routes>
-        <Route path='/' element={<Books />} />
-        <Route path='/add-book' element={<NewBookForm />} />
-        <Route path='/edit-book/:id' element={<EditBookForm />} />
-        <Route path='*' element={<PageNotFound />} />
-      </Routes>
+      <AppRouter />
     </div>
   );
-}
+};
 
-export default App;
+export default memo(App);

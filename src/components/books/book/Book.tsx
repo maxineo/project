@@ -1,14 +1,16 @@
 import React, { memo, ReactElement } from 'react';
+
 import { Link } from 'react-router-dom';
 
-import { Book } from '../../../interfaces/book/Book';
+import { Book } from '../../../interfaces/Book/Book';
 
 import { FirebaseService } from '../../../services/FirebaseService';
 
 import style from './Book.module.scss';
 
 /**
- * Component with book information
+ * Function which returns component with book information.
+ *
  * @param id - id of the book.
  * @param title - title of the book.
  * @param authors - array with the names of the authors.
@@ -40,12 +42,12 @@ const BookComponent = ({
             );
           })}
         </div>
-        <div className={style.publicationYear}>
+        <div className={style['publication-year']}>
           <p>{publicationYear}</p>
         </div>
       </div>
       <div className={style.rating}>
-        <div className={style.ratingCircle}>
+        <div className={style['rating-circle']}>
           <p>{rating ? rating : 0}</p>
         </div>
       </div>

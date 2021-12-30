@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Book } from '../../../interfaces/book/Book';
+
+import { Book } from '../../../interfaces/Book/Book';
 
 /**
  * Interface for editable book state.
@@ -23,10 +24,10 @@ const editableBookSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    updateEditableBookValues: (state, action: PayloadAction<Book>) => {
+    updateEditableBookValues(state, action: PayloadAction<Book>) {
       state.editableBook = action.payload;
     },
-    resetEditableBookValues: (state) => {
+    resetEditableBookValues(state) {
       state.editableBook = initialState.editableBook;
     },
   },

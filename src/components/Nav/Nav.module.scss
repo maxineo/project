@@ -1,20 +1,20 @@
 .nav {
   position: fixed;
   top: 0;
-  width: 100vw;
+  width: 100%;
   display: flex;
   background-color: lawngreen;
 
-  .navList {
+  .nav-list {
     display: flex;
     position: absolute;
-    right: 15vw;
+    right: 15%;
     height: 100%;
     margin: 0;
     border-right: 3px solid rgb(255, 255, 255);
   }
 
-  .navItem {
+  .nav-item {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,11 +25,24 @@
   }
 
   .title {
-    margin-left: 20vw;
+    margin-left: 20%;
     height: 100%;
   }
 
-  .navItem:hover {
+  .nav-item:hover {
     background-color: rgb(158, 250, 67);
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .nav {
+    .nav-list {
+      right: 0;
+    }
+    .title,
+    h1 {
+      margin-left: 3%;
+      font-size: 20px;
+    }
   }
 }

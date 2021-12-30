@@ -3,6 +3,7 @@ import React, { memo, ReactElement } from 'react';
 import style from './PageNotFound.module.scss';
 
 /**
+ * Function which returns 404 page.
  *
  * @returns page not found component.
  */

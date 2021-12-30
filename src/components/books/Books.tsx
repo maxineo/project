@@ -1,23 +1,26 @@
 import React, { memo, ReactElement, useEffect } from 'react';
 
-import BookComponent from './book/Book';
+import BookComponent from './Book/Book';
 
-import { Book } from '../../interfaces/book/Book';
+import { Book } from '../../interfaces/Book/Book';
+import { BooksState } from '../../interfaces/Book/BooksState';
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { BooksState } from '../../redux/slices/books/booksSlice';
 
 import { FirebaseService } from '../../services/FirebaseService';
 
 import style from './Books.module.scss';
 
 /**
+ * Function which returns component with books.
  *
  * @returns component with recommended book and books grouped by publication year and sorted by name.
  */
 const Books = (): ReactElement => {
   const dispatch = useAppDispatch();
+
   const bookList: BooksState = useAppSelector((state) => state.books);
+
   const years = Object.keys(bookList.books).reverse().splice(1);
 
   /**
@@ -30,13 +33,17 @@ const Books = (): ReactElement => {
   }, [dispatch]);
 
   let recommendedBookList: Book[] = [];
+
   const currentYear = new Date().getFullYear();
+
   let maxRating = 0;
+
   years.forEach((year) => {
     if (currentYear - Number(year) >= 3) {
       for (let i = 0; i < bookList.books[Number(year)].length; i++) {
         if (bookList.books[Number(year)][i].rating! > maxRating) {
           recommendedBookList = [bookList.books[Number(year)][i]];
+
           maxRating = Number(bookList.books[Number(year)][i].rating);
         } else if (bookList.books[Number(year)][i].rating! === maxRating) {
           recommendedBookList.push(bookList.books[Number(year)][i]);
@@ -54,7 +61,7 @@ const Books = (): ReactElement => {
   return (
     <div className={style.container}>
       {recommendedBook && (
-        <div className={style.yearGroup}>
+        <div className={style['year-group']}>
           <h4>Recommended book</h4>
           <div className={style.books}>
             <BookComponent
@@ -70,7 +77,7 @@ const Books = (): ReactElement => {
       )}
       {years.map((item, index) => {
         return (
-          <div className={style.yearGroup} key={index}>
+          <div className={style['year-group']} key={index}>
             <h4>{item}</h4>
             <div className={style.books}>
               {bookList.books[Number(item)].map((item: Book, index) => {
@@ -91,7 +98,7 @@ const Books = (): ReactElement => {
         );
       })}
       {bookList.books['booksWithoutDate'].length !== 0 && (
-        <div className={style.yearGroup}>
+        <div className={style['year-group']}>
           <h4>Books without publication date</h4>
           <div className={style.books}>
             {bookList.books['booksWithoutDate'].map((item: Book, index) => {

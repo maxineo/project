@@ -1,15 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Book } from '../../../interfaces/book/Book';
 
-/**
- * Interface for books state.
- */
-export interface BooksState {
-  books: {
-    [key: number]: Book[];
-    booksWithoutDate: Book[];
-  };
-}
+import { Book } from '../../../interfaces/Book/Book';
+import { BooksState } from '../../../interfaces/Book/BooksState';
 
 const initialState: BooksState = {
   books: { booksWithoutDate: [] },
@@ -19,7 +11,7 @@ const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    updateBookList: (state, action: PayloadAction<Book[]>) => {
+    updateBookList(state, action: PayloadAction<Book[]>) {
       const newState: BooksState = {
         books: { booksWithoutDate: [] },
       };

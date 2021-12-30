@@ -1,4 +1,5 @@
 import React, { memo, useEffect, ReactElement } from 'react';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -13,7 +14,7 @@ import {
 
 import { FirebaseService } from '../../services/FirebaseService';
 
-import { Book } from '../../interfaces/book/Book';
+import { Book } from '../../interfaces/Book/Book';
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
@@ -21,15 +22,19 @@ import {
   updateEditableBookValues,
 } from '../../redux/slices/editableBook/editableBookSlice';
 
+import isISBN from '../../utils/isISBN';
+
 import style from './EditBookForm.module.scss';
 
 /**
+ * Function which validates values from the form.
  *
  * @param values - values from the form.
  * @returns object with errors.
  */
 const validateForm = (values: Book) => {
   const errors: FormikErrors<FormikValues> = {};
+
   if (!values.title.trim()) {
     errors.title = 'Title must not be empty';
   }
@@ -51,6 +56,7 @@ const validateForm = (values: Book) => {
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
+
   if (values.publicationYear && values.publicationYear > currentYear) {
     errors.publicationYear = `Publication year must be lower than ${
       currentYear + 1
@@ -65,11 +71,16 @@ const validateForm = (values: Book) => {
     errors.rating = 'Rating must be lower than 10';
   }
 
+  if (values.ISBN && !isISBN(values.ISBN)) {
+    errors.ISBN = 'ISBN wrong';
+  }
+
   return errors;
 };
 
 /**
  * Component with the form to edit the book.
+ *
  * @returns Component with the form to edit the book.
  */
 const EditBookForm = (): ReactElement => {
@@ -84,11 +95,11 @@ const EditBookForm = (): ReactElement => {
    */
   useEffect(() => {
     dispatch(resetEditableBookValues());
+
     const fetchEditableBook = async () => {
       const response: Book | null = searchParams.id
         ? await FirebaseService.getBookById(searchParams.id)()
         : null;
-
       if (response?.title) {
         dispatch(updateEditableBookValues(response));
       } else {
@@ -115,8 +126,11 @@ const EditBookForm = (): ReactElement => {
         ) => {
           try {
             await FirebaseService.editBook(searchParams.id!, values)();
+
             setSubmitting(false);
+
             resetForm({});
+
             navigate('/');
           } catch (error) {
             throw error;
@@ -128,16 +142,16 @@ const EditBookForm = (): ReactElement => {
             <div
               className={
                 touched.title && errors.title
-                  ? `${style.formBlock} ${style.wrongInput}`
-                  : `${style.formBlock}`
+                  ? `${style['form-block']} ${style['wrong-input']}`
+                  : `${style['form-block']}`
               }
             >
               <label htmlFor='title'>Title</label>
               <Field
                 id='title'
                 name='title'
-                placeholder='title'
-                className={style.fieldRow}
+                placeholder='Title'
+                className={style['field-row']}
               />
               {touched.title && errors.title && <div>{errors.title}</div>}
             </div>
@@ -148,8 +162,8 @@ const EditBookForm = (): ReactElement => {
                   <div
                     className={
                       touched.authors && errors.authors
-                        ? `${style.formBlock} ${style.wrongInput}`
-                        : `${style.formBlock}`
+                        ? `${style['form-block']} ${style['wrong-input']}`
+                        : `${style['form-block']}`
                     }
                   >
                     {values.authors.length < 2 ? (
@@ -158,8 +172,8 @@ const EditBookForm = (): ReactElement => {
                         <Field
                           id='authors.0'
                           name='authors.0'
-                          placeholder='author'
-                          className={style.fieldRow}
+                          placeholder='Author`s name'
+                          className={style['field-row']}
                         />
                       </div>
                     ) : (
@@ -170,8 +184,8 @@ const EditBookForm = (): ReactElement => {
                             <Field
                               id={`authors.${index}`}
                               name={`authors.${index}`}
-                              placeholder='author'
-                              className={style.fieldRow}
+                              placeholder='Author`s name'
+                              className={style['field-row']}
                             />
                             <button
                               type='button'
@@ -204,19 +218,19 @@ const EditBookForm = (): ReactElement => {
             <div
               className={
                 touched.publicationYear && errors.publicationYear
-                  ? `${style.formBlock} ${style.wrongInput}`
-                  : `${style.formBlock}`
+                  ? `${style['form-block']} ${style['wrong-input']}`
+                  : `${style['form-block']}`
               }
             >
               <label htmlFor='publicationYear'>Publication year</label>
               <Field
                 id='publicationYear'
                 name='publicationYear'
-                placeholder='publicationYear'
+                placeholder='Publication year'
                 type='number'
                 min='1800'
                 step='1'
-                className={style.fieldRow}
+                className={style['field-row']}
               />
               {touched.publicationYear && errors.publicationYear && (
                 <div>{errors.publicationYear}</div>
@@ -226,20 +240,20 @@ const EditBookForm = (): ReactElement => {
             <div
               className={
                 touched.rating && errors.rating
-                  ? `${style.formBlock} ${style.wrongInput}`
-                  : `${style.formBlock}`
+                  ? `${style['form-block']} ${style['wrong-input']}`
+                  : `${style['form-block']}`
               }
             >
               <label htmlFor='rating'>Rating</label>
               <Field
                 id='rating'
                 name='rating'
-                placeholder='rating'
+                placeholder='Rating'
                 type='number'
                 min='0'
                 max='10'
                 step='1'
-                className={style.fieldRow}
+                className={style['field-row']}
               />
               {touched.rating && errors.rating && <div>{errors.rating}</div>}
             </div>
@@ -247,8 +261,8 @@ const EditBookForm = (): ReactElement => {
             <div
               className={
                 touched.ISBN && errors.ISBN
-                  ? `${style.formBlock} ${style.wrongInput}`
-                  : `${style.formBlock}`
+                  ? `${style['form-block']} ${style['wrong-input']}`
+                  : `${style['form-block']}`
               }
             >
               <label htmlFor='ISBN'>ISBN</label>
@@ -256,7 +270,7 @@ const EditBookForm = (): ReactElement => {
                 id='ISBN'
                 name='ISBN'
                 placeholder='ISBN'
-                className={style.fieldRow}
+                className={style['field-row']}
               />
               {touched.ISBN && errors.ISBN && <div>{errors.ISBN}</div>}
             </div>

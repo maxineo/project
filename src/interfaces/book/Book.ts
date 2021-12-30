@@ -1,7 +1,6 @@
 /**
- * Interface for book.
+ * Interface for the book.
  */
-
 export interface Book {
   readonly id?: string;
   readonly title: string;

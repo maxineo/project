@@ -9,16 +9,23 @@ import {
   onSnapshot,
   setDoc,
 } from 'firebase/firestore';
+
 import db from '../firebase';
 
-import { Book } from '../interfaces/book/Book';
+import { Book } from '../interfaces/Book/Book';
+import { BooksState } from '../interfaces/Book/BooksState';
 
-import { BooksState, updateBookList } from '../redux/slices/books/booksSlice';
+import { updateBookList } from '../redux/slices/books/booksSlice';
 
 /**
- * Service for working with Firestore DB
+ * Service for working with Firestore DB.
  */
 export class FirebaseService {
+  /**
+   * Method for dynamical update of books.
+   * @param dispatch - Dispatch function from redux.
+   * @returns Function to start dynamic update.
+   */
   public static dynamicUpdateBooks(
     dispatch: Dispatch<AnyAction> &
       ThunkDispatch<
@@ -41,28 +48,35 @@ export class FirebaseService {
         dispatch(
           updateBookList(
             snapshot.docs
-              .map((item) => {
-                return { ...item.data(), id: item.id } as Book;
-              })
-              .sort((first: Book, second: Book) => {
-                return first.title > second.title ? 1 : -1;
-              })
+              .map((item) => ({ ...item.data(), id: item.id } as Book))
+              .sort((first: Book, second: Book) =>
+                first.title > second.title ? 1 : -1
+              )
           )
         );
       });
   }
 
+  /**
+   * Method for adding the book to the DB.
+   * @param values - Values of the new book.
+   * @returns Async function for adding the book to the DB.
+   */
   public static addBook(values: Book) {
     return async () => {
       try {
         await addDoc(collection(db, 'books'), values);
-        return 'success';
       } catch (error) {
         throw error;
       }
     };
   }
 
+  /**
+   * Method for removing the book from the DB.
+   * @param id - Id of the book to remove.
+   * @returns Async function for removing the book from the DB.
+   */
   public static removeBook(id: string) {
     return async () => {
       try {
@@ -73,6 +87,12 @@ export class FirebaseService {
     };
   }
 
+  /**
+   * Method for updating the book in the DB.
+   * @param id - Id of the book to update.
+   * @param values - New values to update.
+   * @returns Async function for updating the book in the DB.
+   */
   public static editBook(id: string, values: Book) {
     return async () => {
       try {
@@ -83,6 +103,11 @@ export class FirebaseService {
     };
   }
 
+  /**
+   * Method for getting the book with the given id.
+   * @param id Id of the book.
+   * @returns Async function which returns the book.
+   */
   public static getBookById(id: string) {
     return async () => {
       try {
