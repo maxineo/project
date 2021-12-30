@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0 0 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  border: 3px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.formBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  box-sizing: border-box;
+
+  label {
+    align-self: flex-start;
+    margin: 5px 0 0 5px;
+  }
+}
+
+.wrongInput {
+  border: 2px solid red;
+}
+
+.authors {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 20px 0;
+}
+
+.fieldRow {
+  width: 90%;
+  margin: 20px 0 10px 0;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

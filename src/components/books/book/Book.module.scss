@@ -1,0 +1,112 @@
+.container {
+  min-height: 400px;
+  min-width: 300px;
+  width: 300px;
+  border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+
+  * {
+    margin: 0px;
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 10%;
+    width: 100%;
+    border-bottom: 1px solid black;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    margin-bottom: 15px;
+
+    .authors {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-width: 70%;
+      word-break: break-word;
+
+      p {
+        display: block;
+      }
+    }
+
+    .publicationYear {
+      display: flex;
+      justify-content: flex-end;
+      min-width: 30%;
+      font-size: 36px;
+    }
+  }
+
+  .rating {
+    display: flex;
+    align-items: flex-end;
+    flex-grow: 1;
+    margin-bottom: 15px;
+
+    .ratingCircle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      height: 150px;
+      font-size: 72px;
+      border: 2px solid black;
+      border-radius: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .footer {
+    justify-self: flex-end;
+    display: flex;
+    width: 95%;
+    height: 70px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    .isbn {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eeeeee;
+        min-width: 80px;
+        min-height: 30px;
+        color: #000000;
+        border: 1px solid black;
+        border-radius: 3px;
+        box-sizing: border-box;
+        cursor: default;
+      }
+
+      .button:hover {
+        background-color: rgb(219, 219, 219);
+      }
+
+      .button:active {
+        background-color: rgb(199, 199, 199);
+      }
+    }
+  }
+}
